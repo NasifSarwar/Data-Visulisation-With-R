@@ -1,0 +1,117 @@
+---
+title: "DS412LabFinal"
+author: "Md. Nasif Sarwar"
+date: "203-35-3133"
+output: pdf_document
+---
+
+Answer to the question "UNDERSTANDING AND ANALYSIS"
+                        I
+```{r}
+dataSet <-read.csv("NYCAirBnb.csv")
+dataSet <- na.omit(dataSet)
+head(dataSet)
+```
+                            II
+ Created two function to view For numeric features, compute mean, median, mode, variance, standard deviation, 25%, 75% quantiles, etc. For categorical data, compute mode.
+ infoNumericData - This function takes column name as a parameter and simply print mean, median, mode, variance, standard deviation, 25%, 50%, 75% and 100% quantiles
+ infoCategoricalData - This function takes column name as a parameter and simply print mode and frequency of that feature. 
+```{r}
+infoNumericData <- function(columnName){
+  cat(sprintf("Information of: %s\nMean: %.2f, Median: %.2f, Standard Deviation: %.2f, Q1: %.2f, Q2: %.2f, Q3: %.2f, Q4: %.2f\n\n",
+             columnName, mean(dataSet[, columnName]), median(dataSet[, columnName]), sd(dataSet[, columnName]), quantile(dataSet[, columnName], 0.25), quantile(dataSet[, columnName], 0.75), quantile(dataSet[, columnName], 0.75), quantile(dataSet[, columnName], 1)))
+}
+infoCategoricalData<- function(columnName){
+ cat(sprintf("\n Information of: %s\n", columnName))
+print(DescTools::Mode(dataSet[,columnName]))
+}
+library(DescTools)
+```
+```{r}
+print("For Numeric Features")
+infoNumericData('latitude')
+infoNumericData('longitude')
+infoNumericData('price')
+infoNumericData('minimum_nights')
+infoNumericData('number_of_reviews')
+infoNumericData('reviews_per_month')
+infoNumericData('calculated_host_listings_count')
+infoNumericData('availability_365')
+print("For Categorical Features")
+infoCategoricalData('name')
+infoCategoricalData('host_name')
+infoCategoricalData('neighbourhood_group')
+infoCategoricalData('neighbourhood')
+infoCategoricalData('room_type')
+infoCategoricalData('last_review')
+```
+Answer to the Question "IMPLEMENTATION"
+            I & II
+```{r}
+summary(dataSet)
+```
+            
+Histogram: Latitude
+```{r}
+library(ggplot2)
+ggplot(dataSet, aes(x=latitude)) + geom_histogram(binwidth = 0.02, fill= "red")
+```
+Density Plot: Longitude
+```{r}
+ggplot(dataSet, aes( longitude)) + geom_density(fill= "blue" )
+```
+Boxplot- Status of availability in neighbourhood groups 
+```{r}
+ggplot(dataSet, aes( neighbourhood_group ,  availability_365)) + geom_boxplot(fill= "green")
+```
+Scatter Plot- Price according to room type
+```{r}
+ggplot(dataSet, aes( reviews_per_month ,  price)) + geom_point(fill= "green")
+```
+Heat map- Costly rooms are not available all times
+```{r}
+ggplot(dataSet, aes(number_of_reviews, availability_365, price  )) + geom_tile(fill= "darkgreen")
+```
+Bar Chart- Neighbourhood Group
+```{r}
+ggplot(dataSet, aes(neighbourhood_group  )) + geom_bar(fill= "darkgreen")
+```
+Stacked Bar Chart- Price in each neighborhood group based on room type
+```{r}
+ggplot(dataSet, aes(fill= neighbourhood_group, price,room_type  )) + geom_bar(position = "dodge", stat= "identity")
+
+```
+ Answer to the Question "Accuracy"
+ Showing 3 strong correlation from this dataset
+```{r}
+summary(dataSet)
+
+```
+Correlation 1
+```{r}
+ggplot(dataSet, aes( number_of_reviews ,  reviews_per_month)) + geom_point(fill= "green")
+
+```
+```{r}
+cov(dataSet$number_of_reviews, dataSet$reviews_per_month)
+cor(dataSet$number_of_reviews, dataSet$reviews_per_month)
+```
+ Correlation 2
+```{r}
+ggplot(dataSet, aes(  price ,reviews_per_month  )) + geom_point(fill= "green")
+
+```
+```{r}
+cov(dataSet$price, dataSet$reviews_per_month)
+cor(dataSet$price, dataSet$reviews_per_month)
+```
+ Correlation 3
+```{r}
+ggplot(dataSet, aes(  reviews_per_month ,availability_365  )) + geom_point(fill= "green")
+```
+```{r}
+cov(dataSet$reviews_per_month, dataSet$availability_365)
+cor(dataSet$reviews_per_month, dataSet$availability_365)
+```
+ 
+ 

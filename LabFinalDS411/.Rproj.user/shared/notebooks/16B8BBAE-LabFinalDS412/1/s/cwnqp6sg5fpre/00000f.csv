@@ -1,0 +1,4 @@
+"0","library(ggplot2)"
+"2","Need help? Try Stackoverflow: https://stackoverflow.com/tags/ggplot2
+"
+"0","ggplot(dataSet, aes(x=latitude)) + geom_histogram(binwidth = 0.02, fill= ""red"")"

@@ -1,0 +1,140 @@
+"0","print(""For Numeric Features"")"
+"1","[1]"
+"1"," ""For Numeric Features"""
+"1","
+"
+"0","infoNumericData('latitude')"
+"1","Information of: latitude
+Mean: 40.73, Median: 40.72, Standard Deviation: 0.05, Q1: 40.69, Q2: 40.76, Q3: 40.76, Q4: 40.91
+
+"
+"0","infoNumericData('longitude')"
+"1","Information of: longitude
+Mean: -73.95, Median: -73.95, Standard Deviation: 0.05, Q1: -73.98, Q2: -73.94, Q3: -73.94, Q4: -73.71
+
+"
+"0","infoNumericData('price')"
+"1","Information of: price
+Mean: 142.32, Median: 101.00, Standard Deviation: 196.95, Q1: 69.00, Q2: 170.00, Q3: 170.00, Q4: 10000.00
+
+"
+"0","infoNumericData('minimum_nights')"
+"1","Information of: minimum_nights
+Mean: 5.87, Median: 2.00, Standard Deviation: 17.38, Q1: 1.00, Q2: 4.00, Q3: 4.00, Q4: 1250.00
+
+"
+"0","infoNumericData('number_of_reviews')"
+"1","Information of: number_of_reviews
+Mean: 29.30, Median: 9.00, Standard Deviation: 48.19, Q1: 3.00, Q2: 33.00, Q3: 33.00, Q4: 629.00
+
+"
+"0","infoNumericData('reviews_per_month')"
+"1","Information of: reviews_per_month
+Mean: 1.37, Median: 0.72, Standard Deviation: 1.68, Q1: 0.19, Q2: 2.02, Q3: 2.02, Q4: 58.50
+
+"
+"0","infoNumericData('calculated_host_listings_count')"
+"1","Information of: calculated_host_listings_count
+Mean: 5.16, Median: 1.00, Standard Deviation: 26.30, Q1: 1.00, Q2: 2.00, Q3: 2.00, Q4: 327.00
+
+"
+"0","infoNumericData('availability_365')"
+"1","Information of: availability_365
+Mean: 114.88, Median: 55.00, Standard Deviation: 129.54, Q1: 0.00, Q2: 229.00, Q3: 229.00, Q4: 365.00
+
+"
+"0","print(""For Categorical Features"")"
+"1","[1]"
+"1"," ""For Categorical Features"""
+"1","
+"
+"0","infoCategoricalData('name')"
+"1","
+ Information of: name
+"
+"1","[1]"
+"1"," ""Home away from home"""
+"1","
+"
+"1","attr(,""freq"")"
+"1","
+"
+"1","[1]"
+"1"," 12"
+"1","
+"
+"0","infoCategoricalData('host_name')"
+"1","
+ Information of: host_name
+"
+"1","[1]"
+"1"," ""Michael"""
+"1","
+"
+"1","attr(,""freq"")"
+"1","
+"
+"1","[1]"
+"1"," 335"
+"1","
+"
+"0","infoCategoricalData('neighbourhood_group')"
+"1","
+ Information of: neighbourhood_group
+"
+"1","[1]"
+"1"," ""Manhattan"""
+"1","
+"
+"1","attr(,""freq"")"
+"1","
+"
+"1","[1]"
+"1"," 16632"
+"1","
+"
+"0","infoCategoricalData('neighbourhood')"
+"1","
+ Information of: neighbourhood
+"
+"1","[1]"
+"1"," ""Williamsburg"""
+"1","
+"
+"1","attr(,""freq"")"
+"1","
+"
+"1","[1]"
+"1"," 3163"
+"1","
+"
+"0","infoCategoricalData('room_type')"
+"1","
+ Information of: room_type
+"
+"1","[1]"
+"1"," ""Entire home/apt"""
+"1","
+"
+"1","attr(,""freq"")"
+"1","
+"
+"1","[1]"
+"1"," 20332"
+"1","
+"
+"0","infoCategoricalData('last_review')"
+"1","
+ Information of: last_review
+"
+"1","[1]"
+"1"," ""6/23/2019"""
+"1","
+"
+"1","attr(,""freq"")"
+"1","
+"
+"1","[1]"
+"1"," 1413"
+"1","
+"

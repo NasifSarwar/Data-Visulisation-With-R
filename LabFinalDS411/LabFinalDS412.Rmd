@@ -1,0 +1,220 @@
+---
+title: "DS412LabFinal"
+author: 'Name: Md. Nasif Sarwar'
+date: "Student ID: 203-35-3133"
+output:
+  word_document: default
+  pdf_document: default
+---
+```{r}
+library(ggplot2)
+library(DescTools)
+library(geomtextpath)
+library(ggcorrplot)
+```
+
+Answer to the question "UNDERSTANDING AND ANALYSIS"
+                        I
+                        
+By analyzing the data we can see that this dataset is not proper
+for visulization. Most of the feature has outliers and uneven data
+for instance we can take price mean is 142 and median is 101
+but the maximum value is 10000 most of the features are same
+filed with outliers few of them are okay to use. 
+```{r}
+dataSet <-read.csv("NYCAirBnb.csv")
+dataSet <- na.omit(dataSet)
+head(dataSet)
+```
+
+```{r}
+numeric_df<- dataSet[, !(names(dataSet) %in% c("id", "name","host_id","host_name","neighbourhood_group","neighbourhood","room_type","last_review"))]
+
+print("For Numeric Features")
+summary(numeric_df)
+```
+ 
+                            II
+ Created one function to compute mode of categorical data.
+
+  infoCategoricalData - This function takes column name as a parameter 
+  and simply print mode and frequency of that feature. 
+```{r}
+infoCategoricalData<- function(columnName){
+ cat(sprintf("\n Information of: %s\n", columnName))
+print(DescTools::Mode(dataSet[,columnName]))
+}
+
+```
+
+
+```{r}
+print("For Categorical Features")
+infoCategoricalData('name')
+infoCategoricalData('host_name')
+infoCategoricalData('neighbourhood_group')
+infoCategoricalData('neighbourhood')
+infoCategoricalData('room_type')
+infoCategoricalData('last_review')
+```
+Answer to the Question "IMPLEMENTATION"
+            I & II
+
+
+                           (a)            
+Histogram: This is showing us the number of available rooms
+in a year a accordind to room types
+2 features used
+1. availability_365
+2. room_type
+x-axis shows the availability
+y-axis shows the count or frequency
+Histogram is grouped into 3 room types
+```{r}
+  ggplot( dataSet,aes(x=availability_365, fill=room_type)) +
+    geom_histogram(binwidth= 30,color="#e9ecef", alpha=0.6, position = 'identity') +
+    scale_fill_manual(name= "Room Type",values=c("#E30429", "#22F47B","#7BE5FF")) +
+    labs(title = "Histogram of availability according to room type", x="Availability", y= "Frecuency")+
+    theme_classic()
+```
+                             (b)
+Density Plot: This is showing us the density of available room
+in each neighborhood group. 
+2 features used
+1. availability_365
+2. neighbourhood_group
+x-axis shows the availability
+y-axis shows the density
+Density plot is grouped into 5 neighborhood groups.
+```{r}
+ggplot(dataSet,aes(x=availability_365, group=neighbourhood_group, fill=neighbourhood_group)) +
+    geom_density(position="fill")+
+  scale_fill_manual(name= "Neighbourhood Group",values=c("#E30429", "#22F47B","#7BE5FF","#A00E86","#A307F1"))+
+  labs(title = "Density plot of availability according to neighborhood group", x="Availability", y= "Density") +
+   theme_classic()
+    
+```
+                      (c)
+Box plot-This is showing us the data summery of
+each neighborhood group according to availability. 
+2 features used
+1. availability_365
+2. neighbourhood_group
+x-axis shows shows the density
+y-axis the availability
+Box plot is grouped into 5 neighborhood groups.
+```{r}
+ggplot(dataSet, aes( neighbourhood_group ,  availability_365)) + 
+  geom_boxplot(fill= "#81F5AD")+
+    labs(title = "Boxplot of availability according to neighbourhood group", x="Neighbourhood Group", y= "Availability") +
+   theme_classic()
+
+```
+Box plot-This is showing us the data summery of
+each room type according to availability. 
+2 features used
+1. availability_365
+2. room_type
+x-axis shows the availability
+y-axis shows  the room type 
+Box plot is grouped into 3 room types
+```{r}
+#boxplot(data$availability_365 ~ data$room_type , ylab="sickness" , col="#69b3a2", boxwex=0.5 , main="")
+ggplot(dataSet, aes( availability_365 ,  room_type)) + 
+  geom_boxplot(fill= "#7009DE", col="#69b3a2")+
+  labs(title = "Boxplot of availability according to room type", x="Availability", y= "Room Type") +
+   theme_classic()
+  
+```
+                                (d)
+Scatter Plot- This shows the longitude and latitude according to 
+neighborhood group. This represents like a map which is a fun fact
+because longitude and latitude represents location.
+3 features used
+1. longitude
+2. latitude
+3. neighbourhood_group
+x-axis shows the longitude
+y-axis shows  the latitude 
+Scatter plot is grouped into 5 neighborhood groups
+which is clearly representend and looks like a map.
+
+```{r}
+ggplot(dataSet , aes(x=longitude, y=latitude, shape=neighbourhood_group, color=neighbourhood_group)) + 
+    geom_point()  +
+  geom_labelsmooth(aes(label = neighbourhood_group), fill = "white",
+                method = "lm", formula = y ~ x,
+                size = 3, linewidth = 1.5, boxlinewidth = 0.4)+
+  labs(title = "Scatter plot of neighborhood group which represents map", x="Longitude", y= "Latitude",
+        shape = "Neighborhood Group", color = "Neighborhood Group") +
+   theme_classic()
+```
+                      (e)
+Heat map-Room which are more avalaible or stays empty does not
+gets enough reviews
+3 features used
+1. neighbourhood_group
+2. calculated_host_listings_count
+3. reviews_per_month
+x-axis shows the Neighborhood
+y-axis shows  the Total host listings
+```{r}
+ggplot(dataSet, aes(neighbourhood_group, calculated_host_listings_count  )) + 
+  geom_tile(aes(fill= reviews_per_month))+
+  labs(title = "Heat map of neighborhood and total host listing which has reviews per month",
+       x="Neighborhood Group", y= "Total Host listing", fill="Reviews Per Month")+
+  theme_classic()
+```
+                          (f)
+Stacked Bar Chart- Neighbourhood Group availablity according to room type
+3 features used
+1. neighbourhood_group
+2. availability_365
+3. room_type
+x-axis shows the Room type
+y-axis shows  the frequency of availability
+stacks are grouped using neighborhood group
+```{r}
+ggplot(dataSet, aes(fill=neighbourhood_group, y=availability_365, x=room_type)) + 
+    geom_bar(position="stack", stat="identity")+
+    labs(title = "Neighbourhood Group availablity according to room type.",
+       x="Room Type", y= "Availability Frequency", fill= "Neighborhood Group")+
+     theme_classic()
+```
+                               (g)
+Grouped Bar Chart- Price in each neighborhood group based on room type
+3 features used
+1. neighbourhood_group
+2. price
+3. room_type
+x-axis shows the price 
+y-axis shows the Room type
+```{r}
+ggplot(dataSet, aes(fill= neighbourhood_group, price,room_type  )) + 
+  geom_bar(position = "dodge", stat= "identity")+
+  labs(title = "Grouped bar chart of room type according to price",
+       x="Price", y= "Room Type", fill= "Neighborhood Group")+
+     theme_classic()
+```
+ Answer to the Question "Accuracy"
+ Showing strong correlation from this dataset
+ 
+ Here I took the dataset and inserted to a new one named cor_df
+ where I have all the numeric data
+```{r}
+cor_df<- dataSet[, !(names(dataSet) %in% c("id", "name","host_id","host_name","neighbourhood_group","neighbourhood","room_type","last_review"))]
+```
+Later we calculated all the correlation of the numeric features
+```{r}
+cor_df<- round(cor(cor_df),3)
+cor_df
+```
+Using ggcorrplot we plotted all the correlation with values inside
+generation a correlation matrix
+Where top 3 correlation are:
+1. Number of reviews-Reviews per month
+2. Availability 365-Number of reviews 
+3. Availability 365-Number of host listing
+```{r}
+ggcorrplot(cor_df,hc.order = TRUE, title="", lab=TRUE, lab_size =2.5 )
+```
